@@ -58,6 +58,15 @@ async def get_choice(message: types.Message, command: CommandObject):
     )
 
 
+@dp.message()
+async def download_by_url(message: Message):
+    url = message.text
+    name = storage.get_download_url(url)
+    path = f"C:/Users/Гала/PycharmProjects/get_song_mp3_bot/youtube_audio/{name}.mp3"
+    audio = BufferedInputFile.from_file(path=path, filename=f"{name}.mp3")
+    await bot.send_audio(chat_id=message.chat.id, audio=audio)
+
+
 @dp.callback_query()
 async def callback_handler(callback_query: types.CallbackQuery):
     button_number = callback_query.data
