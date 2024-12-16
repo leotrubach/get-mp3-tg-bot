@@ -23,9 +23,13 @@ storage = MemoryList()
 
 dp = Dispatcher()
 
+
 @dp.message(Command("start"))
 async def cmd_start(message: Message):
-    await message.answer("Добро пожаловать! Этот бот может скачать MP3-файл с любого видео, введя название видео с помощью команды `/get название ролика`. После этого вам нужно выбрать что хотите скачать.")
+    await message.answer(
+        "Добро пожаловать! Этот бот может скачать MP3-файл с любого видео, введя название видео с помощью команды `/get название ролика`. После этого вам нужно выбрать что хотите скачать."
+    )
+
 
 @dp.message(Command("get"))
 async def get_choice(message: types.Message, command: CommandObject):
@@ -47,7 +51,12 @@ async def get_choice(message: types.Message, command: CommandObject):
     ]
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
 
-    await message.answer(f"Выбирете 1 из предложеных ссылок: \n{urls_str}", parse_mode="Markdown", reply_markup=keyboard )
+    await message.answer(
+        f"Выбирете 1 из предложеных ссылок: \n{urls_str}",
+        parse_mode="Markdown",
+        reply_markup=keyboard,
+    )
+
 
 @dp.callback_query()
 async def callback_handler(callback_query: types.CallbackQuery):
@@ -59,11 +68,16 @@ async def callback_handler(callback_query: types.CallbackQuery):
         name_video = storage.get_download(num, user_id)
 
     except KeyError:
-        await callback_query.message.answer("ОШИБКА. Сначало введите что хотите скачать `/get название ролика`")
+        await callback_query.message.answer(
+            "ОШИБКА. Сначало введите что хотите скачать `/get название ролика`"
+        )
         return
-    path = f"C:/Users/Гала/PycharmProjects/get_song_mp3_bot/youtube_audio/{name_video}.mp3"
+    path = (
+        f"C:/Users/Гала/PycharmProjects/get_song_mp3_bot/youtube_audio/{name_video}.mp3"
+    )
     audio = BufferedInputFile.from_file(path=path, filename=f"{name_video}.mp3")
     await bot.send_audio(chat_id=callback_query.message.chat.id, audio=audio)
+
 
 async def main() -> None:
     await dp.start_polling(bot)
