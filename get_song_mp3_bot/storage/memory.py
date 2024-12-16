@@ -33,7 +33,7 @@ class MemoryList:
         name_video = self.url_name_video[user_id][num-1]
         name_video = re.sub(r'[\\/*?:"<>|]', "", name_video)
         options = {
-            'format': 'bestaudio/best',
+            'format': 'bestaudio/best', 
             'outtmpl': f"./youtube_audio/{name_video}.%(ext)s",
             'ffmpeg_location': 'C:/ffmpeg/bin',
             'postprocessors': [{
