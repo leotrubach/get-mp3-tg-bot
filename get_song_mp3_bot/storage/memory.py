@@ -5,7 +5,7 @@ from typing import NamedTuple
 import yt_dlp
 from yt_dlp import YoutubeDL
 
-from constants import max_reults
+from get_song_mp3_bot.storage.constants import max_reults
 
 
 class SearchResult(NamedTuple):
