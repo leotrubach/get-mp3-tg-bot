@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "get-song-mp3-bot"
+version = "0.1.0"
+description = ""
+authors = ["Arkasha <a.naumenko1@list.ru>"]
+readme = ""
+
+[tool.poetry.dependencies]
+python = "^3.12"
+aiogram = "^3.13.1"
+python-dotenv = "^1.0.1"
+yt-dlp = "^2025.1.15"
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
