@@ -1,4 +1,5 @@
 import dataclasses
+import logging
 import os
 import pathlib
 from typing import NamedTuple
@@ -11,9 +12,7 @@ from data.storage.constants import max_reults
 
 dotenv.load_dotenv()
 
-PATH_VIDEO = pathlib.Path(os.getenv("PATH_VIDEO"))
-
-PATH_AUDIO = pathlib.Path(os.getenv("PATH_AUDIO"))
+SHARED_MEDIA = pathlib.Path(os.getenv("SHARED_MEDIA"))
 
 
 class SearchResult(NamedTuple):
@@ -69,7 +68,7 @@ class MemoryList:
         name_video = uuid
         options = {
             "format": "bestaudio/best",
-            "outtmpl": str(PATH_AUDIO / f"{name_video}"),
+            "outtmpl": str(SHARED_MEDIA / f"{name_video}"),
             "ffmpeg_location": "/usr/bin/ffmpeg",
             "postprocessors": [
                 {
@@ -87,7 +86,7 @@ class MemoryList:
 
         options = {
             "format": "bestaudio/best",
-            "outtmpl": str(PATH_AUDIO / f"{name_video}"),
+            "outtmpl": str(SHARED_MEDIA / f"{name_video}"),
             "ffmpeg_location": "/usr/bin/ffmpeg",
             "postprocessors": [
                 {
@@ -142,7 +141,7 @@ class MemoryList:
         name_video = uuid
         ydl_opts = {
             "format": f"{format_id}",
-            "outtmpl": str(PATH_VIDEO / f"{name_video}"),
+            "outtmpl": str(SHARED_MEDIA / f"{name_video}"),
             "nooverwrites": False,
         }
         with YoutubeDL(ydl_opts) as ydl:

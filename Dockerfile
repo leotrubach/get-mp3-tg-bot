@@ -14,8 +14,6 @@ ENV PATH=/root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbi
 
 RUN poetry install --no-root
 
-COPY . .
-
 CMD ["python", "main.py"]
 
 

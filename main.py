@@ -25,9 +25,7 @@ from data.storage.memory import MemoryList
 dotenv.load_dotenv()
 
 TOKEN = getenv("BOT_TOKEN")
-PATH_VIDEO = pathlib.Path(os.getenv("PATH_VIDEO"))
-
-PATH_AUDIO = pathlib.Path(os.getenv("PATH_AUDIO"))
+SHARED_MEDIA = pathlib.Path(os.getenv("SHARED_MEDIA"))
 
 session = AiohttpSession(
     api=TelegramAPIServer.from_base(base="http://telegram-bot-api:8081", is_local=True)
@@ -52,12 +50,6 @@ async def cmd_start(message: Message):
 
 @dp.message(Command("q"))
 async def get_choice(message: Message):
-    path = PATH_VIDEO / "0bcb946f-2ce7-4586-8481-9bc7d09b2617.mp3"
-    if os.path.isfile(path):
-        print("Папка существует")
-    else:
-        print("Папка не существует")
-    print(path)
     await bot.send_video(chat_id=message.chat.id, video=path.absolute().as_uri())
 
 
@@ -126,7 +118,7 @@ async def download_by_url(message: Message):
 
     storage.get_download_url(url, result_uuid)
 
-    path = PATH_AUDIO / f"{result_uuid}.mp3"
+    path = SHARED_MEDIA / f"{result_uuid}.mp3"
 
     await bot.send_audio(chat_id=message.chat.id, audio=path.absolute().as_uri())
 
@@ -139,7 +131,7 @@ async def callback_handler(callback_query: types.CallbackQuery):
     if scope == "search":
         await callback_query.message.answer("Загружаю . . .")
         name_video = storage.get_download(reply_uuid, user_id)
-        path = PATH_AUDIO / f"{reply_uuid}.mp3"
+        path = SHARED_MEDIA / f"{reply_uuid}.mp3"
         await bot.send_audio(
             chat_id=callback_query.message.chat.id, audio=path.absolute().as_uri()
         )
@@ -151,7 +143,7 @@ async def callback_handler(callback_query: types.CallbackQuery):
                 chat_id=callback_query.message.chat.id, text=name_video
             )
             return
-        path = PATH_VIDEO / f"{reply_uuid}"
+        path = SHARED_MEDIA / f"{reply_uuid}"
 
         await bot.send_video(
             chat_id=callback_query.message.chat.id, video=path.absolute().as_uri()
